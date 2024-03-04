@@ -1,5 +1,6 @@
-# SampleCode2024
-Sample Codes About Portfolio, Progammer Hugh
+# Sample Codes About Portfolio, Progammer Hugh
+
+##네이밍 규칙
 
 
 | 구분     | 표기법           | 예시                                                                                                           |
