@@ -1,7 +1,7 @@
 # Sample Codes, Progammer Hugh
 
-     이 프로젝트의 목적은, 포트폴리오를 위한 샘플 코드 작성이며,
-     Unity 를 사용한 게임 프로젝트에서 공통으로 사용 할 수 있는 기본적인 설계를 샘플로 제작한다.
+     이 프로젝트는 포트폴리오를 위한 샘플 코드이며, 작성자의 허가 없이 무단으로 도용될 수 없습니다.
+     Unity 를 사용한 게임 프로젝트에서 공통으로 사용 할 수 있는 기본적인 설계를 목적으로 하고 있습니다.
 
 ### 샘플 프로젝트 구조 설계 문서
 [https://docs.google.com/presentation/d/11Ot5OcwBiRVdSFKuL1vLpspXFzaQem4ZAc3gMRi8MNE/edit?usp=sharing](https://docs.google.com/presentation/d/11Ot5OcwBiRVdSFKuL1vLpspXFzaQem4ZAc3gMRi8MNE/edit?usp=sharing)
