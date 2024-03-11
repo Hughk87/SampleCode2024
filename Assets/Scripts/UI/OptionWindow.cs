@@ -1,14 +1,16 @@
 using UnityEngine;
 
-public class OptionWindow : MonoBehaviour
+public class OptionWindow : PopupUI
 {
     public ToggleButtons toggleButtonSound;
     public ToggleButtons toggleButtonLocalize;
 
-    public void Initialize()
+    public override void Initialize()
     {           
         toggleButtonSound.Initialize(ChangeOptionSound, (int)DataManager.Instance.sound);
-        toggleButtonLocalize.Initialize(ChangeOptionLocalize, (int)DataManager.Instance.localize);
+        toggleButtonLocalize.Initialize(ChangeOptionLocalize, (int)DataManager.Instance.language);
+
+        base.Initialize();
     }
 
     public void ChangeOptionSound(int _index)
@@ -17,10 +19,10 @@ public class OptionWindow : MonoBehaviour
     }
     public void ChangeOptionLocalize(int _index)
     {
-        DataManager.Instance.ChangeOptionLocalize(_index);
+        DataManager.Instance.ChangeOptionLanguage(_index);
     }
     public void OnClickClose()
     {
-        Destroy(this.gameObject);
+        Destroy();
     }
 }

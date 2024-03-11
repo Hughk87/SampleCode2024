@@ -1,16 +1,21 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoSingleton<UIManager>
 {
+    List<PopupUI> popupUIList = new List<PopupUI>();
     Transform popupParent = null;
     Transform popupAbsolute = null;
 
-    public override void Initialize()
+    System.Action delegateApplyLanguage;
+
+    public override void Initialize(params System.Object[] _object)
     {
-        popupParent = CreateCanvas("Canvas_Popup", DefineUI.SORT_ORDER_POPUP_DEFAULT);
-        popupAbsolute = CreateCanvas("Canvas_Absolute", DefineUI.SORT_ORDER_POPUP_ABSOLUTE);
+        Debug.Log("UIManager.Initialize()");
+        popupParent = CreateCanvas("Canvas_Popup", DefineUI.SORTORDER_POPUP_DEFAULT);
+        popupAbsolute = CreateCanvas("Canvas_Absolute", DefineUI.SORTORDER_POPUP_ABSOLUTE);
     }
 
     Transform CreateCanvas(string _name, int _sortingOrder)
@@ -34,9 +39,9 @@ public class UIManager : MonoSingleton<UIManager>
     {
         GameObject _obj = GameObject.Instantiate(Resources.Load("MessageWindow") as GameObject);
         MessageWindow _component = _obj.GetComponent<MessageWindow>();
-        _component.Initialize(MessageWindow.MODE.OKAY_CANCEL, "Do you wanna Exit Game ?", OnClickExitOK);
+        _component.Initialize(MessageWindow.MODE.OKAY_CANCEL, LocalizeManager.Instance.GetText(13), OnClickExitOK);
 
-        _obj.transform.SetParent(popupParent);
+        _obj.transform.SetParent(popupAbsolute);
         if (_obj.transform is RectTransform)
         {
             (_obj.transform as RectTransform).offsetMin = Vector2.zero;
@@ -55,6 +60,7 @@ public class UIManager : MonoSingleton<UIManager>
         GameObject _obj = GameObject.Instantiate(Resources.Load("OptionWindow") as GameObject);
         OptionWindow _component = _obj.GetComponent<OptionWindow>();
         _component.Initialize();
+
 
         _obj.transform.SetParent(popupParent);
         if (_obj.transform is RectTransform)
@@ -87,4 +93,40 @@ public class UIManager : MonoSingleton<UIManager>
 
     // UI 에 대한 Object Pooling 처리.
 
-}
+
+    public void ApplyLauguage()
+    {
+        // 생성했던 UI 에 대한 객체를 가지고 있어야 한다.
+        for(int i=0;i<popupUIList.Count;i++)
+        {
+            popupUIList[i].ApplyLauguage();
+        }
+
+
+
+        // 각 씬에서 사용되는 UI 에 대한 참조값도 가지고 있어야 한다.
+        if (delegateApplyLanguage != null)
+            delegateApplyLanguage(); 
+    }
+
+
+    
+
+    public void AddDelegateApplyLauguage(System.Action _delegateApplyLanguage)
+    {
+        delegateApplyLanguage += _delegateApplyLanguage;
+    }
+    public void RemoveDelegateApplyLauguage(System.Action _delegateApplyLanguage)
+    {
+        delegateApplyLanguage -= _delegateApplyLanguage;
+    }
+
+    public void AddPopupUI(PopupUI _popupUI)
+    {
+        popupUIList.Add(_popupUI);
+    }
+    public void RemovePopupUI(PopupUI _popupUI)
+    {
+        popupUIList.Remove(_popupUI);
+    }
+    }

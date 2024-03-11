@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class MessageWindow : MonoBehaviour
+public class MessageWindow : PopupUI
 {
     public enum MODE
     {
@@ -20,18 +20,20 @@ public class MessageWindow : MonoBehaviour
         textMessage.text = _message;
         delegateOkay = _delegateOkay;
         delegateCancel = _delegateCancel;
+
+        base.Initialize();
     }
 
     public void OnClickOkay()
     {
         if (delegateOkay != null) delegateOkay();
 
-        Destroy(this.gameObject);
+        Destroy();
     }
     public void OnClickCancel()
     {
         if (delegateCancel != null) delegateCancel();
 
-        Destroy(this.gameObject);
+        Destroy();
     }
 }

@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public class PlayGameUI : MonoBehaviour
+public class PlayGameUI : SceneUI
 {
     public void OnClickFinish()
     {

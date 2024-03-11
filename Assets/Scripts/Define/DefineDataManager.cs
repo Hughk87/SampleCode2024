@@ -6,9 +6,11 @@ public enum OPTION_SOUND
     OFF
 }
 
-public enum OPTION_LOCALIZE
+public enum OPTION_LANGUAGE
 {
     NONE = -1,
     KOREAN,
     ENGLISH
 }
+
+//public static class Extension_EnumValue

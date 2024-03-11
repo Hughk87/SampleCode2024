@@ -1,11 +1,10 @@
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleton<GameManager>
 {
     public static GAME_STATE State { get; private set; }
-
+    public static bool IsPlaying { get; private set; }
 
     void Update()
     {
@@ -20,25 +19,36 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
+    private void OnApplicationQuit()
+    {
+        IsPlaying = false;
+    }
 
-
-
-    public override void Initialize()
+    public override void Initialize(params System.Object[] _object)
     {
         State = GAME_STATE.NONE;
+        IsPlaying = true;
+
+        TestFunction();
 
         CreateManager<UIManager>();
         CreateManager<DataManager>();
-        //UIManager.Create(this.transform).Initialize();
-        //DataManager.Create(this.transform).Initialize();
+
+        CreateManager<LocalizeManager>(DataManager.Instance.language);
 
         State = GAME_STATE.INITIALIZE;
 
         ChangeState(GAME_STATE.MAINUI);
     }
-    void CreateManager<T>() where T : MonoSingleton<T>
+
+    void TestFunction()
     {
-        MonoSingleton<T>.Create(this.transform).Initialize();
+        TableManager.TestDataInput();
+    }
+
+    void CreateManager<T>(params System.Object[] _object) where T : MonoSingleton<T>
+    {
+        MonoSingleton<T>.Create(this.transform).Initialize(_object);
     }
 
     public void ChangeState(GAME_STATE _state)
@@ -102,6 +112,20 @@ public class GameManager : MonoSingleton<GameManager>
                 Debug.LogError($"ChangeState_Next :: 정의되지 않은 값 // {_state}");
                 break;
         }
+    }
+
+    public void ApplySound()
+    {
+
+    }
+
+    public void ApplyLauguage()
+    {
+        OPTION_LANGUAGE _language = DataManager.Instance.language;
+
+        // 옵션을 적용
+        LocalizeManager.Instance.ChangeLauguage(_language);
+        UIManager.Instance.ApplyLauguage();
     }
 
     public void ExitProgram()

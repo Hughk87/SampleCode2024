@@ -15,3 +15,10 @@ public class SceneList
     public const string SceneMainUI = "MainUI";
     public const string ScenePlayGame = "PlayGame";
 }
+
+
+public class DefineClient
+{
+    public const int INDEX_NONE = -1;
+
+}

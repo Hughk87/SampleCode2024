@@ -1,18 +1,18 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DataManager : MonoSingleton<DataManager>
 {
     const string KEY_SOUND = "KEY_SOUND";
-    const string KEY_LOCALIZE = "KEY_LOCALIZE";
+    const string KEY_LANGUAGE = "KEY_LOCALIZE";
 
     public OPTION_SOUND sound { get; private set; }
-    public OPTION_LOCALIZE localize { get; private set; }
+    public OPTION_LANGUAGE language { get; private set; }
 
-    public override void Initialize()
+    public override void Initialize(params System.Object[] _object)
     {
+        Debug.Log("DataManager.Initialize()");
         sound = OPTION_SOUND.NONE;
-        localize = OPTION_LOCALIZE.NONE;
+        language = OPTION_LANGUAGE.NONE;
 
         Load();
     }
@@ -20,12 +20,12 @@ public class DataManager : MonoSingleton<DataManager>
     void Load()
     {
         sound = (OPTION_SOUND)PlayerPrefs.GetInt(KEY_SOUND, (int)OPTION_SOUND.ON);
-        localize = (OPTION_LOCALIZE)PlayerPrefs.GetInt(KEY_LOCALIZE, (int)OPTION_LOCALIZE.KOREAN);
+        language = (OPTION_LANGUAGE)PlayerPrefs.GetInt(KEY_LANGUAGE, (int)OPTION_LANGUAGE.KOREAN);
     }
     void SaveAll()
     {
         SaveSound(false);
-        SaveLocalize(false);
+        SaveLanguage(false);
 
         PlayerPrefs.Save();
     }
@@ -36,9 +36,9 @@ public class DataManager : MonoSingleton<DataManager>
             PlayerPrefs.Save();
     }
 
-    void SaveLocalize(bool _isNeedSave = true)
+    void SaveLanguage(bool _isNeedSave = true)
     {
-        PlayerPrefs.SetInt(KEY_LOCALIZE, (int)localize);
+        PlayerPrefs.SetInt(KEY_LANGUAGE, (int)language);
         if (_isNeedSave)
             PlayerPrefs.Save();
     }
@@ -46,21 +46,23 @@ public class DataManager : MonoSingleton<DataManager>
 
     public void ChangeOptionSound(int _index)
     {
-        // datamanager 에 옵션 변경을 요청.
+        if (sound == (OPTION_SOUND)_index)
+            return;
+
         sound = (OPTION_SOUND)_index;
         SaveSound();
 
-        // 옵션을 적용
-        // soundmanager.instance.changeoption();
+        GameManager.Instance.ApplySound();
     }
-    public void ChangeOptionLocalize(int _index)
+    public void ChangeOptionLanguage(int _index)
     {
-        // datamanager 에 옵션 변경을 요청.
-        localize = (OPTION_LOCALIZE)_index;
-        SaveLocalize();
+        if (language == (OPTION_LANGUAGE)_index)
+            return;
 
-        // 옵션을 적용
-        // localizemanager.instance.changeoption();
+        language = (OPTION_LANGUAGE)_index;
+        SaveLanguage();
+
+        GameManager.Instance.ApplyLauguage();
     }
 
     private void OnDestroy()

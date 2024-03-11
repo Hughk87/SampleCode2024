@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public class MainUI : MonoBehaviour
+public class MainUI : SceneUI
 {
     public void OnClickStart()
     {

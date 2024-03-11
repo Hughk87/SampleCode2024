@@ -1,0 +1,60 @@
+{
+    "localizeTableList": [
+        {
+            "key": 0,
+            "value": "Start"
+        },
+        {
+            "key": 1,
+            "value": "Option"
+        },
+        {
+            "key": 2,
+            "value": "Finish"
+        },
+        {
+            "key": 3,
+            "value": "OK"
+        },
+        {
+            "key": 4,
+            "value": "Cancel"
+        },
+        {
+            "key": 5,
+            "value": "Option Window"
+        },
+        {
+            "key": 6,
+            "value": "Sound"
+        },
+        {
+            "key": 7,
+            "value": "On"
+        },
+        {
+            "key": 8,
+            "value": "Off"
+        },
+        {
+            "key": 9,
+            "value": "Localize"
+        },
+        {
+            "key": 10,
+            "value": "Korean"
+        },
+        {
+            "key": 11,
+            "value": "English"
+        },
+        {
+            "key": 12,
+            "value": "Close"
+        },
+        {
+            "key": 13,
+            "value": "Do you wanna Exit Game ?"
+        }
+    ]
+}

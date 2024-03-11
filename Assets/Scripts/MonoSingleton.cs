@@ -35,7 +35,9 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 
             instance = _createObject.AddComponent<T>();
 
-            DontDestroyOnLoad(_createObject);
+            //check don't destroy activated
+            if (_createObject.scene.buildIndex != -1)
+                DontDestroyOnLoad(_createObject);
         }
         else
         {
@@ -53,5 +55,5 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-    public virtual void Initialize() { }
+    public virtual void Initialize(params System.Object[] _object) { }
 }
