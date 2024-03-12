@@ -6,16 +6,16 @@ using UnityEngine.UI;
 public class UIManager : MonoSingleton<UIManager>
 {
     List<PopupUI> popupUIList = new List<PopupUI>();
-    Transform popupParent = null;
-    Transform popupAbsolute = null;
+    Transform ParentDefault = null;
+    Transform ParentAbsolute = null;
 
     System.Action delegateApplyLanguage;
 
     public override void Initialize(params System.Object[] _object)
     {
         Debug.Log("UIManager.Initialize()");
-        popupParent = CreateCanvas("Canvas_Popup", DefineUI.SORTORDER_POPUP_DEFAULT);
-        popupAbsolute = CreateCanvas("Canvas_Absolute", DefineUI.SORTORDER_POPUP_ABSOLUTE);
+        ParentDefault = CreateCanvas("Canvas_Popup", DefineUI.SORTORDER_POPUP_DEFAULT);
+        ParentAbsolute = CreateCanvas("Canvas_Absolute", DefineUI.SORTORDER_POPUP_ABSOLUTE);
     }
 
     Transform CreateCanvas(string _name, int _sortingOrder)
@@ -35,82 +35,47 @@ public class UIManager : MonoSingleton<UIManager>
         return _createObject.transform;
     }
 
-    public void CreateExitWindow()
+    public T CreatePopupUI<T>(params object[] _args) where T : PopupUI
     {
-        GameObject _obj = GameObject.Instantiate(Resources.Load("MessageWindow") as GameObject);
-        MessageWindow _component = _obj.GetComponent<MessageWindow>();
-        _component.Initialize(MessageWindow.MODE.OKAY_CANCEL, LocalizeManager.Instance.GetText(13), OnClickExitOK);
-
-        _obj.transform.SetParent(popupAbsolute);
-        if (_obj.transform is RectTransform)
-        {
-            (_obj.transform as RectTransform).offsetMin = Vector2.zero;
-            (_obj.transform as RectTransform).offsetMax = Vector2.zero;
-        }
-        else
-        {
-            Debug.LogError("UIManager.CreateExitWindow() :: UI 오브젝트가 RectTransform이 아닙니다 !");
-            _obj.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-        }
-        _obj.transform.localScale = Vector3.one;
+        return CreatePopup<T>(ParentDefault, _args);
     }
 
-    public void CreateOptionWindow()
+    public T CreatePopupUIAbsolute<T>(params object[] _args) where T : PopupUI
     {
-        GameObject _obj = GameObject.Instantiate(Resources.Load("OptionWindow") as GameObject);
-        OptionWindow _component = _obj.GetComponent<OptionWindow>();
-        _component.Initialize();
-
-
-        _obj.transform.SetParent(popupParent);
-        if (_obj.transform is RectTransform)
-        {
-            (_obj.transform as RectTransform).offsetMin = Vector2.zero;
-            (_obj.transform as RectTransform).offsetMax = Vector2.zero;
-        }
-        else
-        {
-            Debug.LogError("UIManager.CreateExitWindow() :: UI 오브젝트가 RectTransform이 아닙니다 !");
-            _obj.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
-        }
-        _obj.transform.localScale = Vector3.one;
+      return  CreatePopup<T>(ParentAbsolute, _args);
     }
-
-    public void OnClickExitOK()
-    {
-        GameManager.Instance.ExitProgram();
-    }
-
     // UI 객체를 생성.
-    // 1. Canvas 를 포함한 프리팹을 생성 (로드)
-    // 2. Canvas 를 가지고 있는 상태로, Canvas가 없는 프리팹을 생성. **
-    // => Canvas 의 설정을 하나하나 수정하기 힘들다. 또, 상황에 따라 Canvas 설정을 제어하기 쉽다.
-    // => Canvas 자체의 설정을 여러개 미리 해놓고, 상황에 따라 사용한다.
+    T CreatePopup<T>(Transform _parent, params object[] _args) where T : PopupUI
+    {
+        GameObject _obj = ResourcesManager.LoadUIPrefab(typeof(T).Name, _parent);
+        T _component = _obj.GetComponent<T>();
+        _component.Initialize(_args);
+        return _component;
+    }
 
-    // UI 객체를 관리.
-
-    // UI 객체를 소멸.
-
-    // UI 에 대한 Object Pooling 처리.
-
+    public void CreateMessageWindow_OK(string _text, Action _callback)
+    {
+        MessageWindow _popupUI = CreatePopupUIAbsolute<MessageWindow>(MessageWindow.MODE.OKAY, _text);
+        _popupUI.SetCallBack(_callback);
+    }
+    public void CreateMessageWindow_OKCANCEL(string _text, Action _callbackOK, Action _callbackCancel = null)
+    {
+        MessageWindow _popupUI = CreatePopupUIAbsolute<MessageWindow>(MessageWindow.MODE.OKAY_CANCEL, _text);
+        if (_callbackCancel != null)
+            _popupUI.SetCallBack(_callbackOK, _callbackCancel);
+        else
+            _popupUI.SetCallBack(_callbackOK);
+    }
 
     public void ApplyLauguage()
     {
-        // 생성했던 UI 에 대한 객체를 가지고 있어야 한다.
         for(int i=0;i<popupUIList.Count;i++)
-        {
             popupUIList[i].ApplyLauguage();
-        }
 
-
-
-        // 각 씬에서 사용되는 UI 에 대한 참조값도 가지고 있어야 한다.
+        // 각 씬에서 사용되는 UI 에 대한 callback 호출
         if (delegateApplyLanguage != null)
             delegateApplyLanguage(); 
     }
-
-
-    
 
     public void AddDelegateApplyLauguage(System.Action _delegateApplyLanguage)
     {
@@ -121,6 +86,7 @@ public class UIManager : MonoSingleton<UIManager>
         delegateApplyLanguage -= _delegateApplyLanguage;
     }
 
+    // UI 객체를 관리.
     public void AddPopupUI(PopupUI _popupUI)
     {
         popupUIList.Add(_popupUI);
@@ -129,4 +95,21 @@ public class UIManager : MonoSingleton<UIManager>
     {
         popupUIList.Remove(_popupUI);
     }
+
+    public bool IsExistPopup<T>() where T : PopupUI
+    {
+        bool _retval = false;
+        for (int i = 0; i < popupUIList.Count; i++)
+        {
+            if (popupUIList[i] is T)
+            {
+                _retval = true;
+                break;
+            }
+        }
+        return _retval;
     }
+
+    // to do :: UI 에 대한 Object Pooling 처리.
+
+}

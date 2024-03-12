@@ -1,54 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-public class TableManager
+public class TableManager// : MonoSingleton<TableManager>
 {
     public const string PATH_TABLE = "Resources/Table/";
     public const string TABLENAME_DEFAULT_LOCALIZE = "Localize";
-    public static void TestDataInput()
-    {
-        LocalizeTable _data = new LocalizeTable();
-        _data.localizeTableList = new List<LocalizeTableData>();
-        _data.localizeTableList.Add(new LocalizeTableData(0, "Start"));
-        _data.localizeTableList.Add(new LocalizeTableData(1, "Option"));
-        _data.localizeTableList.Add(new LocalizeTableData(2, "Finish"));
-        _data.localizeTableList.Add(new LocalizeTableData(3, "OK"));
-        _data.localizeTableList.Add(new LocalizeTableData(4, "Cancel"));
-        _data.localizeTableList.Add(new LocalizeTableData(5, "Option Window"));
-        _data.localizeTableList.Add(new LocalizeTableData(6, "Sound"));
-        _data.localizeTableList.Add(new LocalizeTableData(7, "On"));
-        _data.localizeTableList.Add(new LocalizeTableData(8, "Off"));
-        _data.localizeTableList.Add(new LocalizeTableData(9, "Localize"));
-        _data.localizeTableList.Add(new LocalizeTableData(10, "Korean"));
-        _data.localizeTableList.Add(new LocalizeTableData(11, "English"));
-        _data.localizeTableList.Add(new LocalizeTableData(12, "Close"));
-        _data.localizeTableList.Add(new LocalizeTableData(13, "Do you wanna Exit Game ?"));
-
-        Set(GetTableName(OPTION_LANGUAGE.ENGLISH), _data);
-
-        _data.localizeTableList.Clear();
-        _data.localizeTableList.Add(new LocalizeTableData(0, "시작"));
-        _data.localizeTableList.Add(new LocalizeTableData(1, "설정"));
-        _data.localizeTableList.Add(new LocalizeTableData(2, "종료"));
-        _data.localizeTableList.Add(new LocalizeTableData(3, "확인"));
-        _data.localizeTableList.Add(new LocalizeTableData(4, "취소"));
-        _data.localizeTableList.Add(new LocalizeTableData(5, "설정 화면"));
-        _data.localizeTableList.Add(new LocalizeTableData(6, "사운드"));
-        _data.localizeTableList.Add(new LocalizeTableData(7, "켜기"));
-        _data.localizeTableList.Add(new LocalizeTableData(8, "끄기"));
-        _data.localizeTableList.Add(new LocalizeTableData(9, "언어 설정"));
-        _data.localizeTableList.Add(new LocalizeTableData(10, "한국어"));
-        _data.localizeTableList.Add(new LocalizeTableData(11, "영어"));
-        _data.localizeTableList.Add(new LocalizeTableData(12, "닫기"));
-        _data.localizeTableList.Add(new LocalizeTableData(13, "게임을 종료 하시겠습니까 ?"));
-        Set(GetTableName(OPTION_LANGUAGE.KOREAN), _data);
-    }
-
+    
     public static T Get<T>(string _tableName) where T : TableBase
     {
         try
@@ -105,6 +65,44 @@ public class TableManager
         return _retval;
     }
 
+    //public static void TestDataInput()
+    //{
+    //    LocalizeTable _data = new LocalizeTable();
+    //    _data.localizeTableList = new List<LocalizeTableData>();
+    //    _data.localizeTableList.Add(new LocalizeTableData(0, "Start"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(1, "Option"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(2, "Finish"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(3, "OK"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(4, "Cancel"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(5, "Option Window"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(6, "Sound"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(7, "On"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(8, "Off"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(9, "Localize"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(10, "Korean"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(11, "English"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(12, "Close"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(13, "Do you wanna Exit Game ?"));
+
+    //    Set(GetTableName(OPTION_LANGUAGE.ENGLISH), _data);
+
+    //    _data.localizeTableList.Clear();
+    //    _data.localizeTableList.Add(new LocalizeTableData(0, "시작"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(1, "설정"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(2, "종료"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(3, "확인"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(4, "취소"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(5, "설정 화면"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(6, "사운드"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(7, "켜기"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(8, "끄기"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(9, "언어 설정"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(10, "한국어"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(11, "영어"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(12, "닫기"));
+    //    _data.localizeTableList.Add(new LocalizeTableData(13, "게임을 종료 하시겠습니까 ?"));
+    //    Set(GetTableName(OPTION_LANGUAGE.KOREAN), _data);
+    //}
 }
 
 

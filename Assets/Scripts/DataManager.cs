@@ -8,7 +8,7 @@ public class DataManager : MonoSingleton<DataManager>
     public OPTION_SOUND sound { get; private set; }
     public OPTION_LANGUAGE language { get; private set; }
 
-    public override void Initialize(params System.Object[] _object)
+    public override void Initialize(params object[] _object)
     {
         Debug.Log("DataManager.Initialize()");
         sound = OPTION_SOUND.NONE;

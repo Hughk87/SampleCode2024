@@ -16,7 +16,7 @@ public class PopupUI : MonoBehaviour
         this.ApplyLauguageInChildren();
     }
 
-    public virtual void Initialize()
+    public virtual void Initialize(params object[] _args)
     {
         UIManager.Instance.AddPopupUI(this);
     }
@@ -25,9 +25,8 @@ public class PopupUI : MonoBehaviour
         UIManager.Instance.RemovePopupUI(this);
         Destroy(this.gameObject);
     }
+    public virtual void SetCallBack(params System.Action[] _callBacks) { }
 }
-
-
 
 
 public class SceneUI : MonoBehaviour

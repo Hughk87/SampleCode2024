@@ -5,7 +5,7 @@ public class OptionWindow : PopupUI
     public ToggleButtons toggleButtonSound;
     public ToggleButtons toggleButtonLocalize;
 
-    public override void Initialize()
+    public override void Initialize(params object[] _args)
     {           
         toggleButtonSound.Initialize(ChangeOptionSound, (int)DataManager.Instance.sound);
         toggleButtonLocalize.Initialize(ChangeOptionLocalize, (int)DataManager.Instance.language);

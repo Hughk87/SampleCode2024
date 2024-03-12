@@ -55,5 +55,5 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-    public virtual void Initialize(params System.Object[] _object) { }
+    public virtual void Initialize(params object[] _object) { }
 }

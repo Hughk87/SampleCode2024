@@ -12,5 +12,3 @@ public enum OPTION_LANGUAGE
     KOREAN,
     ENGLISH
 }
-
-//public static class Extension_EnumValue

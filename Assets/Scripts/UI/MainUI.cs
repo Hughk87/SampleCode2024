@@ -7,6 +7,6 @@ public class MainUI : SceneUI
 
     public void OnClickOption()
     {
-        UIManager.Instance.CreateOptionWindow();
+        UIManager.Instance.CreatePopupUI<OptionWindow>();
     }
 }

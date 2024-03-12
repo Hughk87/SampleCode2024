@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -12,16 +13,34 @@ public class MessageWindow : PopupUI
 
     public TextMeshProUGUI textMessage;
     public GameObject objCancelButton;
-    System.Action delegateOkay;
-    System.Action delegateCancel;
-    public void Initialize(MODE _mode, string _message, System.Action _delegateOkay, System.Action _delegateCancel = null)
+    Action delegateOkay;
+    Action delegateCancel;
+
+    public override void Initialize(params object[] _args)
     {
-        objCancelButton.SetActive(_mode == MODE.OKAY_CANCEL);
-        textMessage.text = _message;
-        delegateOkay = _delegateOkay;
-        delegateCancel = _delegateCancel;
+        if (_args.Length != 2)
+            return;
+
+        if (!(_args[0] is MODE))
+            return;
+
+        if (!(_args[1] is string))
+            return;
+
+        objCancelButton.SetActive((MODE)_args[0] == MODE.OKAY_CANCEL);
+        textMessage.text = (string)_args[1];
 
         base.Initialize();
+    }
+    public override void SetCallBack(params Action[] _callBacks)
+    {
+        if (_callBacks.Length < 0)
+            return;
+
+        delegateOkay = _callBacks[0];
+
+        if (_callBacks.Length >= 2)
+            delegateCancel = _callBacks[1];
     }
 
     public void OnClickOkay()

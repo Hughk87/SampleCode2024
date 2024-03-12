@@ -5,7 +5,7 @@ public class LocalizeManager : MonoSingleton<LocalizeManager>
 {
     List<LocalizeTableData> localizeTableList;
 
-    public override void Initialize(params System.Object[] _object)
+    public override void Initialize(params object[] _object)
     {
         Debug.Log("LocalizeManager.Initialize()");
 
